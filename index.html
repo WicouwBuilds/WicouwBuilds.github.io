@@ -21,28 +21,34 @@ body {
   font-family: 'Inter', sans-serif;
   background: var(--light);
   color: var(--dark);
+  line-height:1.6;
 }
 
-/* NAV */
-.nav {
-  position: sticky;
-  top: 0;
-  backdrop-filter: blur(12px);
-  background: rgba(255,255,255,0.6);
-  padding: 15px 20px;
-  display:flex;
-  justify-content:space-between;
-  z-index:1000;
+section { padding:80px 20px; }
+
+h1 { font-size:3rem; }
+h2 { font-size:2rem; margin-bottom:20px; }
+
+p { color:var(--gray); }
+
+.btn {
+  display:inline-block;
+  margin-top:20px;
+  padding:15px 28px;
+  background:var(--primary);
+  color:white;
+  border-radius:10px;
+  text-decoration:none;
+  font-weight:600;
 }
 
 /* HERO */
-.hero-advanced {
-  padding:120px 20px;
+.hero {
   background: radial-gradient(circle at top left, #e6fffa, #ffffff);
 }
 
 .hero-content {
-  max-width:1200px;
+  max-width:1100px;
   margin:auto;
   display:grid;
   grid-template-columns:1fr 1fr;
@@ -50,57 +56,16 @@ body {
   align-items:center;
 }
 
-.hero-text h1 {
-  font-size:3rem;
-}
-
-.hero-text span { color: var(--primary); }
-
-.hero-text p {
-  margin-top:20px;
-  color: var(--gray);
-}
-
-.hero-proof {
-  margin-top:20px;
-  display:flex;
-  gap:15px;
-  color: var(--gray);
-}
-
-.hero-visual img {
+.hero img {
   width:100%;
   border-radius:20px;
   box-shadow:0 40px 100px rgba(0,0,0,0.15);
 }
 
-/* BUTTON */
-.btn {
-  display:inline-block;
-  margin-top:25px;
-  padding:15px 28px;
-  background:var(--primary);
-  color:#fff;
-  border-radius:10px;
-  text-decoration:none;
-  font-weight:600;
-}
-
-/* METRICS */
-.metrics {
-  display:flex;
-  justify-content:space-around;
-  padding:60px 20px;
-  text-align:center;
-}
-
-.metrics h2 { font-size:2rem; }
-
-/* CARDS */
+/* GRID */
 .grid {
   display:grid;
   gap:20px;
-  padding:60px 20px;
   max-width:1100px;
   margin:auto;
 }
@@ -118,28 +83,26 @@ body {
 }
 
 .card:hover {
-  transform:translateY(-6px) scale(1.01);
+  transform:translateY(-6px);
   box-shadow:0 20px 60px rgba(0,0,0,0.1);
 }
 
-/* DEMO */
-.demo {
+/* METRICS */
+.metrics {
+  display:flex;
+  justify-content:space-around;
   text-align:center;
-  padding:80px 20px;
 }
 
-/* CTA */
-.cta {
-  text-align:center;
-  padding:100px 20px;
-}
+.metrics h2 { font-size:2rem; }
 
-/* FOOTER */
-footer {
-  text-align:center;
-  padding:40px;
-  color:var(--gray);
+/* ANIMATION */
+.fade-in {
+  opacity:0;
+  transform:translateY(30px);
+  transition:0.8s;
 }
+.visible { opacity:1; transform:translateY(0); }
 
 /* FLOAT BTN */
 .floating-btn {
@@ -151,171 +114,197 @@ footer {
   padding:15px 20px;
   border-radius:50px;
 }
-
-/* ANIMATIONS */
-.fade-in {
-  opacity:0;
-  transform:translateY(30px);
-  transition:all 0.8s ease;
-}
-.fade-in.visible {
-  opacity:1;
-  transform:translateY(0);
-}
-
-/* DASHBOARD */
-.dashboard-animate {
-  transition:0.6s;
-}
-
-/* BG GLOW */
-.bg-glow {
-  position:fixed;
-  width:600px;
-  height:600px;
-  background:radial-gradient(circle, rgba(37,211,102,0.2), transparent);
-  top:-200px;
-  right:-200px;
-  z-index:-1;
-}
 </style>
 </head>
 
 <body>
 
-<div class="bg-glow"></div>
-
 <!-- HERO -->
-<section class="hero-advanced">
-  <div class="hero-content">
-    
-    <div class="hero-text">
-      <h1>Turn WhatsApp into your <span>sales engine</span></h1>
-      <p>Capture every order. Automate every reply. Scale effortlessly.</p>
+<section class="hero">
+<div class="hero-content">
 
-      <a class="btn" href="https://wa.me/27646509053?text=Hi%20I%20want%20to%20automate%20my%20orders">
-        Start Free on WhatsApp
-      </a>
+<div>
+<h1>Stop Losing Orders on WhatsApp</h1>
 
-      <div class="hero-proof">
-        <span>✔ No setup</span>
-        <span>✔ No credit card</span>
-        <span>✔ Live in minutes</span>
-      </div>
-    </div>
+<p>
+For small businesses: automatically capture orders, reply instantly, and track everything — without hiring staff.
+</p>
 
-    <div class="hero-visual">
-      <img src="dashboard.png" class="dashboard-animate">
-    </div>
+<a class="btn" href="https://wa.me/27646509053?text=Hi%20I%20want%20to%20automate%20my%20orders">
+Start Free on WhatsApp →
+</a>
 
-  </div>
+<p style="margin-top:10px; font-size:14px;">
+Get your first automated order in under 5 minutes
+</p>
+
+<p style="margin-top:20px; font-size:14px;">
+Trusted by growing businesses using WhatsApp to scale faster
+</p>
+</div>
+
+<div>
+<img src="dashboard.png">
+</div>
+
+</div>
 </section>
 
 <!-- LIVE METRICS -->
 <section class="metrics fade-in">
-  <div>
-    <h2 id="orders">1,248</h2>
-    <p>Orders today</p>
-  </div>
-  <div>
-    <h2 id="revenue">$23,750</h2>
-    <p>Revenue</p>
-  </div>
-  <div>
-    <h2 id="customers">184</h2>
-    <p>Businesses</p>
-  </div>
+<div>
+<h2 id="orders">1,248</h2>
+<p>Orders this week</p>
+</div>
+<div>
+<h2 id="revenue">$23,750</h2>
+<p>Revenue this month</p>
+</div>
+<div>
+<h2 id="customers">184</h2>
+<p>Active businesses</p>
+</div>
 </section>
 
-<!-- FEATURES -->
-<section class="grid grid-3 fade-in">
-  <div class="card">Capture every order automatically</div>
-  <div class="card">Automate replies</div>
-  <div class="card">Track everything</div>
+<!-- PROBLEM -->
+<section class="fade-in">
+<h2>You’re losing money every day on WhatsApp</h2>
+
+<div class="grid grid-3">
+<div class="card">Messages get buried → orders disappear</div>
+<div class="card">Manual replies slow you down</div>
+<div class="card">No system = no growth</div>
+</div>
+
+<p style="margin-top:20px;">Every missed message is a lost customer.</p>
+</section>
+
+<!-- SOLUTION -->
+<section class="fade-in">
+<h2>Turn WhatsApp into an automated sales system</h2>
+
+<div class="grid grid-3">
+<div class="card">Capture every order automatically</div>
+<div class="card">Reply instantly (even while you sleep)</div>
+<div class="card">Track orders in one dashboard</div>
+</div>
+
+<div style="text-align:center;">
+<a class="btn" href="https://wa.me/27646509053?text=Hi%20I%20want%20to%20automate%20my%20orders">
+Start Free →
+</a>
+</div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="fade-in">
+<h2>How it works</h2>
+
+<div class="grid grid-3">
+<div class="card"><strong>1. Connect WhatsApp</strong><br>Get set up in minutes</div>
+<div class="card"><strong>2. Set auto-replies</strong><br>We guide you</div>
+<div class="card"><strong>3. Start receiving orders</strong><br>Automatically tracked</div>
+</div>
 </section>
 
 <!-- DEMO -->
-<section class="demo fade-in">
-  <h2>See it in action</h2>
-  <img src="dashboard.png" class="dashboard-animate" style="max-width:900px;">
+<section class="fade-in" style="text-align:center;">
+<h2>See how businesses are scaling</h2>
+<p>From chaotic chats → structured orders</p>
+<img src="dashboard.png" style="max-width:900px; margin-top:20px;">
+</section>
+
+<!-- PRICING -->
+<section class="fade-in">
+<h2>Simple pricing that grows with you</h2>
+
+<div class="grid grid-3">
+<div class="card">
+<h3>Starter</h3>
+<p>$9/month</p>
+<small>Perfect for small businesses</small>
+</div>
+
+<div class="card">
+<h3>Growth</h3>
+<p>$29/month</p>
+<small>Most popular for daily orders</small>
+</div>
+
+<div class="card">
+<h3>Pro</h3>
+<p>$79/month</p>
+<small>Full automation & scaling</small>
+</div>
+</div>
+
+<div style="text-align:center;">
+<a class="btn" href="https://wa.me/27646509053?text=Hi%20I%20want%20to%20automate%20my%20orders">
+Start Free Trial →
+</a>
+</div>
+</section>
+
+<!-- FAQ -->
+<section class="fade-in">
+<h2>Still not sure?</h2>
+
+<p><strong>Is this hard to set up?</strong><br>No. You’ll be live in minutes.</p>
+<p><strong>Will this work for my business?</strong><br>If you get WhatsApp orders — yes.</p>
+<p><strong>Do I need tech skills?</strong><br>No.</p>
 </section>
 
 <!-- CTA -->
-<section class="cta fade-in">
-  <h2>Start Automating Today</h2>
-  <a class="btn" href="https://wa.me/27646509053?text=Hi%20I%20want%20to%20automate%20my%20orders">
-    Start Free on WhatsApp
-  </a>
+<section class="fade-in" style="text-align:center;">
+<h2>Stop losing orders. Start scaling.</h2>
+
+<p>You already have customers messaging you. Turn that into revenue.</p>
+
+<a class="btn" href="https://wa.me/27646509053?text=Hi%20I%20want%20to%20automate%20my%20orders">
+Start Free on WhatsApp →
+</a>
+
+<p style="margin-top:10px;">Set up in under 5 minutes</p>
 </section>
 
-<footer>
+<footer style="text-align:center; padding:40px;">
 Built for modern businesses • Global ready
 </footer>
 
 <a class="floating-btn" href="https://wa.me/27646509053">Chat</a>
 
 <script>
-// Scroll reveal
-const observer = new IntersectionObserver(entries=>{
-entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add("visible");});
+// scroll animation
+const obs=new IntersectionObserver(e=>{
+e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('visible')})
 });
-document.querySelectorAll(".fade-in").forEach(el=>observer.observe(el));
+document.querySelectorAll('.fade-in').forEach(el=>obs.observe(el));
 
-// Counter animation
-function animateValue(id, start, end, duration, prefix='') {
-let obj=document.getElementById(id);
-let range=end-start;
-let startTime=null;
-function step(t){
-if(!startTime) startTime=t;
-let progress=Math.min((t-startTime)/duration,1);
-let value=Math.floor(progress*range+start);
-obj.innerHTML=prefix+value.toLocaleString();
-if(progress<1) requestAnimationFrame(step);
+// counters
+function animate(id,start,end,dur,prefix=''){
+let obj=document.getElementById(id),t=null;
+function step(ts){
+if(!t)t=ts;
+let p=Math.min((ts-t)/dur,1);
+let val=Math.floor(p*(end-start)+start);
+obj.innerHTML=prefix+val.toLocaleString();
+if(p<1)requestAnimationFrame(step);
 }
 requestAnimationFrame(step);
 }
 window.onload=()=>{
-animateValue("orders",1000,1284,1500);
-animateValue("revenue",20000,23750,1500,"$");
-animateValue("customers",120,184,1500);
+animate("orders",1000,1284,1500);
+animate("revenue",20000,23750,1500,"$");
+animate("customers",120,184,1500);
 };
 
-// Live updates
+// live updates
 setInterval(()=>{
 let o=document.getElementById("orders");
 let r=document.getElementById("revenue");
-o.innerText=(parseInt(o.innerText.replace(/,/g,''))+Math.floor(Math.random()*3)).toLocaleString();
-r.innerText="$"+(parseInt(r.innerText.replace(/[^0-9]/g,''))+Math.floor(Math.random()*20)).toLocaleString();
-},3000);
-
-// Parallax
-document.addEventListener("mousemove",e=>{
-let img=document.querySelector(".dashboard-animate");
-if(!img)return;
-let x=(window.innerWidth/2-e.pageX)/40;
-let y=(window.innerHeight/2-e.pageY)/40;
-img.style.transform=`rotateX(${y}deg) rotateY(${x}deg)`;
-});
-
-// Activity feed
-const names=["John","Sarah","Mike","Emma"];
-const cities=["Cape Town","London","Dubai","NY"];
-
-setInterval(()=>{
-let div=document.createElement("div");
-div.innerHTML=`💬 ${names[Math.random()*names.length|0]} from ${cities[Math.random()*cities.length|0]} just signed up`;
-div.style.position="fixed";
-div.style.bottom="80px";
-div.style.left="20px";
-div.style.background="white";
-div.style.padding="10px";
-div.style.borderRadius="10px";
-div.style.boxShadow="0 10px 30px rgba(0,0,0,0.2)";
-document.body.appendChild(div);
-
-setTimeout(()=>div.remove(),4000);
-},8000);
+o.innerText=(parseInt(o.innerText.replace(/,/g,''))+1).toLocaleString();
+r.innerText="$"+(parseInt(r.innerText.replace(/[^0-9]/g,''))+5).toLocaleString();
+},4000);
 </script>
 
 </body>
