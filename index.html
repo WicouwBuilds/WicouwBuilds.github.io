@@ -144,7 +144,7 @@ Trusted by growing businesses using WhatsApp to scale faster
 </div>
 
 <div>
-<img src="dashboard.png">
+<img src="pricing ZAR.png">
 </div>
 
 </div>
@@ -157,7 +157,7 @@ Trusted by growing businesses using WhatsApp to scale faster
 <p>Orders this week</p>
 </div>
 <div>
-<h2 id="revenue">$23,750</h2>
+<h2 id="revenue">R445,000</h2>
 <p>Revenue this month</p>
 </div>
 <div>
@@ -211,7 +211,7 @@ Start Free →
 <section class="fade-in" style="text-align:center;">
 <h2>See how businesses are scaling</h2>
 <p>From chaotic chats → structured orders</p>
-<img src="dashboard.png" style="max-width:900px; margin-top:20px;">
+<img src="pricing ZAR.png" style="max-width:900px; margin-top:20px;">
 </section>
 
 <!-- PRICING -->
@@ -221,19 +221,19 @@ Start Free →
 <div class="grid grid-3">
 <div class="card">
 <h3>Starter</h3>
-<p>$9/month</p>
+<p>R149/month</p>
 <small>Perfect for small businesses</small>
 </div>
 
 <div class="card">
-<h3>Growth</h3>
-<p>$29/month</p>
+<h3>Growth ⭐</h3>
+<p>R399/month</p>
 <small>Most popular for daily orders</small>
 </div>
 
 <div class="card">
 <h3>Pro</h3>
-<p>$79/month</p>
+<p>R899/month</p>
 <small>Full automation & scaling</small>
 </div>
 </div>
@@ -292,9 +292,10 @@ if(p<1)requestAnimationFrame(step);
 }
 requestAnimationFrame(step);
 }
+
 window.onload=()=>{
 animate("orders",1000,1284,1500);
-animate("revenue",20000,23750,1500,"$");
+animate("revenue",400000,445000,1500,"R");
 animate("customers",120,184,1500);
 };
 
@@ -302,8 +303,10 @@ animate("customers",120,184,1500);
 setInterval(()=>{
 let o=document.getElementById("orders");
 let r=document.getElementById("revenue");
+
 o.innerText=(parseInt(o.innerText.replace(/,/g,''))+1).toLocaleString();
-r.innerText="$"+(parseInt(r.innerText.replace(/[^0-9]/g,''))+5).toLocaleString();
+r.innerText="R"+(parseInt(r.innerText.replace(/[^0-9]/g,''))+50).toLocaleString();
+
 },4000);
 </script>
 
