@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>WhatsApp Order Manager</title>
+<title>OrderFlow - WhatsApp Order Manager</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 
@@ -15,11 +15,7 @@
   --light: #f8fafc;
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+* { margin:0; padding:0; box-sizing:border-box; }
 
 body {
   font-family: 'Inter', sans-serif;
@@ -27,233 +23,300 @@ body {
   color: var(--dark);
 }
 
-/* NAVBAR */
+/* NAV */
 .nav {
   position: sticky;
   top: 0;
-  backdrop-filter: blur(10px);
-  background: rgba(255,255,255,0.7);
-  border-bottom: 1px solid #eee;
+  backdrop-filter: blur(12px);
+  background: rgba(255,255,255,0.6);
   padding: 15px 20px;
-  z-index: 1000;
-}
-
-.nav .container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.logo {
-  font-weight: 700;
-}
-
-.nav a {
-  text-decoration: none;
+  display:flex;
+  justify-content:space-between;
+  z-index:1000;
 }
 
 /* HERO */
-.hero {
-  text-align: center;
-  padding: 100px 20px;
-  background: linear-gradient(135deg, #ecfdf5, #ffffff);
+.hero-advanced {
+  padding:120px 20px;
+  background: radial-gradient(circle at top left, #e6fffa, #ffffff);
 }
 
-.hero h1 {
-  font-size: 3rem;
-  font-weight: 700;
+.hero-content {
+  max-width:1200px;
+  margin:auto;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:40px;
+  align-items:center;
 }
 
-.hero p {
-  margin-top: 15px;
+.hero-text h1 {
+  font-size:3rem;
+}
+
+.hero-text span { color: var(--primary); }
+
+.hero-text p {
+  margin-top:20px;
   color: var(--gray);
-  font-size: 1.1rem;
+}
+
+.hero-proof {
+  margin-top:20px;
+  display:flex;
+  gap:15px;
+  color: var(--gray);
+}
+
+.hero-visual img {
+  width:100%;
+  border-radius:20px;
+  box-shadow:0 40px 100px rgba(0,0,0,0.15);
 }
 
 /* BUTTON */
 .btn {
-  display: inline-block;
-  margin-top: 25px;
-  padding: 15px 28px;
-  background: var(--primary);
-  color: #fff;
-  border-radius: 10px;
-  font-weight: 600;
-  text-decoration: none;
-  box-shadow: 0 10px 25px rgba(37,211,102,0.3);
-  transition: all 0.3s ease;
+  display:inline-block;
+  margin-top:25px;
+  padding:15px 28px;
+  background:var(--primary);
+  color:#fff;
+  border-radius:10px;
+  text-decoration:none;
+  font-weight:600;
 }
 
-.btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 15px 35px rgba(37,211,102,0.4);
+/* METRICS */
+.metrics {
+  display:flex;
+  justify-content:space-around;
+  padding:60px 20px;
+  text-align:center;
 }
 
-/* SECTIONS */
-.section {
-  padding: 80px 20px;
-  max-width: 1100px;
-  margin: auto;
-}
+.metrics h2 { font-size:2rem; }
 
-.section h2 {
-  font-size: 2rem;
-  margin-bottom: 20px;
-}
-
-.section p {
-  color: var(--gray);
-}
-
-/* GRID */
+/* CARDS */
 .grid {
-  display: grid;
-  gap: 20px;
+  display:grid;
+  gap:20px;
+  padding:60px 20px;
+  max-width:1100px;
+  margin:auto;
 }
 
 .grid-3 {
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns:repeat(auto-fit, minmax(250px,1fr));
 }
 
-/* CARD */
 .card {
-  background: white;
-  padding: 25px;
-  border-radius: 12px;
-  border: 1px solid #eee;
-  transition: 0.3s;
+  background:white;
+  padding:25px;
+  border-radius:12px;
+  border:1px solid #eee;
+  transition:0.3s;
 }
 
 .card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 15px 40px rgba(0,0,0,0.08);
-}
-
-/* PRICING */
-.pricing-card {
-  border: 2px solid var(--primary);
+  transform:translateY(-6px) scale(1.01);
+  box-shadow:0 20px 60px rgba(0,0,0,0.1);
 }
 
 /* DEMO */
 .demo {
-  text-align: center;
-  padding: 60px 20px;
+  text-align:center;
+  padding:80px 20px;
 }
 
 /* CTA */
 .cta {
-  text-align: center;
-  padding: 100px 20px;
-  background: linear-gradient(135deg, #ffffff, #ecfdf5);
+  text-align:center;
+  padding:100px 20px;
 }
 
 /* FOOTER */
 footer {
-  text-align: center;
-  padding: 40px;
-  color: var(--gray);
-  font-size: 0.9rem;
+  text-align:center;
+  padding:40px;
+  color:var(--gray);
 }
 
-/* FLOATING BUTTON */
+/* FLOAT BTN */
 .floating-btn {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background: var(--primary);
-  color: white;
-  padding: 15px 20px;
-  border-radius: 50px;
-  font-weight: bold;
-  text-decoration: none;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  background:var(--primary);
+  color:white;
+  padding:15px 20px;
+  border-radius:50px;
+}
+
+/* ANIMATIONS */
+.fade-in {
+  opacity:0;
+  transform:translateY(30px);
+  transition:all 0.8s ease;
+}
+.fade-in.visible {
+  opacity:1;
+  transform:translateY(0);
+}
+
+/* DASHBOARD */
+.dashboard-animate {
+  transition:0.6s;
+}
+
+/* BG GLOW */
+.bg-glow {
+  position:fixed;
+  width:600px;
+  height:600px;
+  background:radial-gradient(circle, rgba(37,211,102,0.2), transparent);
+  top:-200px;
+  right:-200px;
+  z-index:-1;
 }
 </style>
 </head>
 
 <body>
 
-<!-- NAV -->
-<div class="nav">
-  <div class="container">
-    <div class="logo">OrderFlow</div>
-    <a class="btn" href="https://wa.me/27XXXXXXXXX">Start</a>
-  </div>
-</div>
+<div class="bg-glow"></div>
 
 <!-- HERO -->
-<section class="hero">
-  <h1>Stop Losing Orders on WhatsApp</h1>
-  <p>Turn chats into structured, automated revenue.</p>
+<section class="hero-advanced">
+  <div class="hero-content">
+    
+    <div class="hero-text">
+      <h1>Turn WhatsApp into your <span>sales engine</span></h1>
+      <p>Capture every order. Automate every reply. Scale effortlessly.</p>
 
-  <a class="btn" href="https://wa.me/27XXXXXXXXX?text=Hi%20I%20want%20to%20automate%20my%20orders">
-    Start Free on WhatsApp
-  </a>
-</section>
+      <a class="btn" href="https://wa.me/27646509053?text=Hi%20I%20want%20to%20automate%20my%20orders">
+        Start Free on WhatsApp
+      </a>
 
-<!-- PROBLEM -->
-<section class="section">
-  <h2>The Hidden Problem</h2>
-  <div class="grid grid-3">
-    <div class="card">Missed messages = lost sales</div>
-    <div class="card">Manual replies waste time</div>
-    <div class="card">No visibility on orders</div>
+      <div class="hero-proof">
+        <span>✔ No setup</span>
+        <span>✔ No credit card</span>
+        <span>✔ Live in minutes</span>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <img src="dashboard.png" class="dashboard-animate">
+    </div>
+
   </div>
 </section>
 
-<!-- SOLUTION -->
-<section class="section">
-  <h2>Your Automation Engine</h2>
-  <div class="grid grid-3">
-    <div class="card">Capture every order</div>
-    <div class="card">Automate responses</div>
-    <div class="card">Track everything</div>
+<!-- LIVE METRICS -->
+<section class="metrics fade-in">
+  <div>
+    <h2 id="orders">1,248</h2>
+    <p>Orders today</p>
   </div>
+  <div>
+    <h2 id="revenue">$23,750</h2>
+    <p>Revenue</p>
+  </div>
+  <div>
+    <h2 id="customers">184</h2>
+    <p>Businesses</p>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="grid grid-3 fade-in">
+  <div class="card">Capture every order automatically</div>
+  <div class="card">Automate replies</div>
+  <div class="card">Track everything</div>
 </section>
 
 <!-- DEMO -->
-<section class="demo">
+<section class="demo fade-in">
   <h2>See it in action</h2>
-  <p>Add your demo video or GIF here</p>
-</section>
-
-<!-- PRICING -->
-<section class="section">
-  <h2>Simple Pricing</h2>
-  <div class="grid grid-3">
-    <div class="card">
-      <h3>Starter</h3>
-      <p>$9/mo</p>
-    </div>
-    <div class="card pricing-card">
-      <h3>Growth</h3>
-      <p>$29/mo</p>
-      <strong>Most Popular</strong>
-    </div>
-    <div class="card">
-      <h3>Pro</h3>
-      <p>$79/mo</p>
-    </div>
-  </div>
+  <img src="dashboard.png" class="dashboard-animate" style="max-width:900px;">
 </section>
 
 <!-- CTA -->
-<section class="cta">
+<section class="cta fade-in">
   <h2>Start Automating Today</h2>
-  <a class="btn" href="https://wa.me/27XXXXXXXXX?text=Hi%20I%20want%20to%20automate%20my%20orders">
+  <a class="btn" href="https://wa.me/27646509053?text=Hi%20I%20want%20to%20automate%20my%20orders">
     Start Free on WhatsApp
   </a>
 </section>
 
-<!-- FOOTER -->
 <footer>
-  Built for modern businesses • Secure payments • Global ready
+Built for modern businesses • Global ready
 </footer>
 
-<!-- FLOATING BUTTON -->
-<a class="floating-btn" href="https://wa.me/27XXXXXXXXX?text=Hi%20I%20want%20to%20automate%20my%20orders">
-  Chat Now
-</a>
+<a class="floating-btn" href="https://wa.me/27646509053">Chat</a>
+
+<script>
+// Scroll reveal
+const observer = new IntersectionObserver(entries=>{
+entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add("visible");});
+});
+document.querySelectorAll(".fade-in").forEach(el=>observer.observe(el));
+
+// Counter animation
+function animateValue(id, start, end, duration, prefix='') {
+let obj=document.getElementById(id);
+let range=end-start;
+let startTime=null;
+function step(t){
+if(!startTime) startTime=t;
+let progress=Math.min((t-startTime)/duration,1);
+let value=Math.floor(progress*range+start);
+obj.innerHTML=prefix+value.toLocaleString();
+if(progress<1) requestAnimationFrame(step);
+}
+requestAnimationFrame(step);
+}
+window.onload=()=>{
+animateValue("orders",1000,1284,1500);
+animateValue("revenue",20000,23750,1500,"$");
+animateValue("customers",120,184,1500);
+};
+
+// Live updates
+setInterval(()=>{
+let o=document.getElementById("orders");
+let r=document.getElementById("revenue");
+o.innerText=(parseInt(o.innerText.replace(/,/g,''))+Math.floor(Math.random()*3)).toLocaleString();
+r.innerText="$"+(parseInt(r.innerText.replace(/[^0-9]/g,''))+Math.floor(Math.random()*20)).toLocaleString();
+},3000);
+
+// Parallax
+document.addEventListener("mousemove",e=>{
+let img=document.querySelector(".dashboard-animate");
+if(!img)return;
+let x=(window.innerWidth/2-e.pageX)/40;
+let y=(window.innerHeight/2-e.pageY)/40;
+img.style.transform=`rotateX(${y}deg) rotateY(${x}deg)`;
+});
+
+// Activity feed
+const names=["John","Sarah","Mike","Emma"];
+const cities=["Cape Town","London","Dubai","NY"];
+
+setInterval(()=>{
+let div=document.createElement("div");
+div.innerHTML=`💬 ${names[Math.random()*names.length|0]} from ${cities[Math.random()*cities.length|0]} just signed up`;
+div.style.position="fixed";
+div.style.bottom="80px";
+div.style.left="20px";
+div.style.background="white";
+div.style.padding="10px";
+div.style.borderRadius="10px";
+div.style.boxShadow="0 10px 30px rgba(0,0,0,0.2)";
+document.body.appendChild(div);
+
+setTimeout(()=>div.remove(),4000);
+},8000);
+</script>
 
 </body>
 </html>
