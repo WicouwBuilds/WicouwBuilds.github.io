@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>WhatsApp Order Manager — Stop Losing Orders</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --green: #25D366;
+    --green-light: #34e875;
+    --green-dim: rgba(37,211,102,0.12);
+    --navy: #0a0f1e;
+    --navy-mid: #111827;
+    --navy-card: #151d30;
+    --navy-border: rgba(37,211,102,0.18);
+    --white: #f0f4f8;
+    --muted: #8899aa;
+    --font-display: 'Syne', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--navy);
+    color: var(--white);
+    font-family: var(--font-body);
+    font-size: 17px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ── NOISE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.5;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 40px;
+    background: rgba(10,15,30,0.85);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--navy-border);
+  }
+  .nav-logo {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: var(--green);
+    letter-spacing: -0.02em;
+  }
+  .nav-logo span { color: var(--white); }
+  .nav-cta {
+    background: var(--green);
+    color: var(--navy);
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 0.85rem;
+    padding: 10px 22px;
+    border-radius: 100px;
+    text-decoration: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+    letter-spacing: 0.01em;
+  }
+  .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(37,211,102,0.35); }
+
+  /* ── SECTIONS ── */
+  section { position: relative; z-index: 1; }
+
+  .container { max-width: 720px; margin: 0 auto; padding: 0 24px; }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    padding: 120px 0 80px;
+    background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(37,211,102,0.08) 0%, transparent 70%);
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--green-dim);
+    border: 1px solid var(--navy-border);
+    color: var(--green);
+    font-size: 0.8rem;
+    font-weight: 500;
+    padding: 6px 14px;
+    border-radius: 100px;
+    margin-bottom: 28px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .hero-badge::before { content: '●'; font-size: 0.6rem; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+  h1 {
+    font-family: var(--font-display);
+    font-size: clamp(2.8rem, 7vw, 4.5rem);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    margin-bottom: 24px;
+    color: #fff;
+  }
+  h1 .accent { color: var(--green); display: block; }
+
+  .hero-sub {
+    font-size: 1.2rem;
+    color: var(--muted);
+    margin-bottom: 16px;
+    max-width: 480px;
+    font-weight: 300;
+  }
+  .hero-proof {
+    font-size: 0.85rem;
+    color: rgba(136,153,170,0.7);
+    margin-bottom: 44px;
+    font-style: italic;
+  }
+
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: var(--green);
+    color: var(--navy);
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1rem;
+    padding: 16px 36px;
+    border-radius: 100px;
+    text-decoration: none;
+    border: none; cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    letter-spacing: -0.01em;
+  }
+  .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 12px 32px rgba(37,211,102,0.4); }
+
+  /* ── SECTION SHARED ── */
+  .section-pad { padding: 100px 0; }
+
+  .section-label {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--green);
+    margin-bottom: 20px;
+  }
+
+  h2 {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    margin-bottom: 20px;
+    color: #fff;
+  }
+
+  .body-text {
+    font-size: 1.05rem;
+    color: var(--muted);
+    line-height: 1.8;
+    max-width: 560px;
+  }
+
+  /* ── DIVIDER ── */
+  .divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--navy-border), transparent);
+    margin: 0 40px;
+  }
+
+  /* ── PROBLEM ── */
+  #problem { background: var(--navy-mid); }
+  .problem-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 48px;
+  }
+  .problem-card {
+    background: var(--navy-card);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 16px;
+    padding: 28px;
+    transition: border-color 0.3s;
+  }
+  .problem-card:hover { border-color: var(--navy-border); }
+  .problem-card .icon { font-size: 1.8rem; margin-bottom: 12px; display: block; }
+  .problem-card h3 {
+    font-family: var(--font-display);
+    font-size: 1rem; font-weight: 700;
+    color: #fff; margin-bottom: 8px;
+  }
+  .problem-card p { font-size: 0.9rem; color: var(--muted); line-height: 1.6; }
+
+  /* ── PAIN ── */
+  #pain {
+    background: linear-gradient(135deg, #0d1220 0%, #0a0f1e 100%);
+    text-align: center;
+  }
+  #pain .container { max-width: 600px; }
+  #pain h2 { font-size: clamp(2.2rem, 5vw, 3.2rem); }
+  #pain .accent-red { color: #ff4d6d; }
+  #pain .body-text { margin: 0 auto; text-align: center; }
+  .pain-stat {
+    display: inline-block;
+    font-family: var(--font-display);
+    font-size: 4rem;
+    font-weight: 800;
+    color: #ff4d6d;
+    line-height: 1;
+    margin: 32px 0 8px;
+  }
+  .pain-stat-label { font-size: 0.9rem; color: var(--muted); margin-bottom: 32px; }
+
+  /* ── SOLUTION ── */
+  #solution { background: var(--navy-mid); }
+  .bullets {
+    list-style: none;
+    margin-top: 36px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .bullets li {
+    display: flex; align-items: flex-start; gap: 16px;
+    background: var(--navy-card);
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 14px;
+    padding: 20px 24px;
+    font-size: 1rem;
+    color: var(--white);
+    transition: border-color 0.3s, transform 0.2s;
+  }
+  .bullets li:hover { border-color: var(--navy-border); transform: translateX(4px); }
+  .bullets li .check { color: var(--green); font-size: 1.2rem; flex-shrink: 0; margin-top: 2px; }
+
+  /* ── OUTCOME ── */
+  #outcome {
+    background: radial-gradient(ellipse 60% 80% at 50% 50%, rgba(37,211,102,0.06) 0%, transparent 70%);
+    text-align: center;
+  }
+  #outcome .container { max-width: 560px; }
+  #outcome .body-text { margin: 0 auto 48px; text-align: center; }
+  .outcome-pills {
+    display: flex; flex-wrap: wrap; gap: 12px;
+    justify-content: center;
+    margin-top: 36px;
+  }
+  .pill {
+    background: var(--green-dim);
+    border: 1px solid var(--navy-border);
+    color: var(--green);
+    padding: 10px 20px;
+    border-radius: 100px;
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+
+  /* ── EARLY ACCESS ── */
+  #early {
+    background: var(--navy-mid);
+  }
+  .early-perks {
+    list-style: none;
+    margin-top: 28px;
+    display: flex; flex-direction: column; gap: 12px;
+  }
+  .early-perks li {
+    display: flex; align-items: center; gap: 14px;
+    font-size: 1rem; color: var(--white);
+  }
+  .early-perks li::before {
+    content: '→';
+    color: var(--green);
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  /* ── FORM ── */
+  #form-section {
+    background: linear-gradient(180deg, var(--navy-mid) 0%, var(--navy) 100%);
+  }
+  .form-card {
+    background: var(--navy-card);
+    border: 1px solid var(--navy-border);
+    border-radius: 24px;
+    padding: 48px 40px;
+    box-shadow: 0 32px 80px rgba(0,0,0,0.4);
+  }
+  .form-card h2 {
+    font-size: 1.8rem;
+    margin-bottom: 8px;
+  }
+  .form-card .form-sub {
+    color: var(--muted); font-size: 0.95rem; margin-bottom: 36px;
+  }
+  .form-group { margin-bottom: 20px; }
+  .form-group label {
+    display: block;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 8px;
+  }
+  .form-group input {
+    width: 100%;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    padding: 14px 18px;
+    color: var(--white);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .form-group input:focus { border-color: var(--green); background: rgba(37,211,102,0.04); }
+  .form-group input::placeholder { color: rgba(136,153,170,0.4); }
+  .btn-submit {
+    width: 100%;
+    background: var(--green);
+    color: var(--navy);
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 1.05rem;
+    padding: 18px;
+    border-radius: 14px;
+    border: none; cursor: pointer;
+    margin-top: 8px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    letter-spacing: -0.01em;
+  }
+  .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(37,211,102,0.35); }
+  .urgency {
+    text-align: center;
+    margin-top: 16px;
+    font-size: 0.82rem;
+    color: var(--muted);
+    font-style: italic;
+  }
+  .urgency::before { content: '⚡ '; }
+
+  /* ── TRUST ── */
+  #trust {
+    background: var(--navy);
+    text-align: center;
+    padding: 80px 0;
+  }
+  #trust .container { max-width: 520px; }
+  .trust-text {
+    font-size: 1rem;
+    color: var(--muted);
+    font-style: italic;
+    line-height: 1.8;
+  }
+  .trust-avatar {
+    width: 52px; height: 52px;
+    background: var(--green-dim);
+    border: 2px solid var(--green);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem;
+    margin: 0 auto 20px;
+  }
+
+  /* ── FINAL CTA ── */
+  #final-cta {
+    background: linear-gradient(135deg, rgba(37,211,102,0.08) 0%, transparent 60%);
+    text-align: center;
+    padding: 120px 0;
+    border-top: 1px solid var(--navy-border);
+  }
+  #final-cta h2 { font-size: clamp(2.2rem, 5vw, 3.5rem); margin-bottom: 40px; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--navy-mid);
+    text-align: center;
+    padding: 24px;
+    font-size: 0.8rem;
+    color: rgba(136,153,170,0.4);
+    border-top: 1px solid rgba(255,255,255,0.04);
+  }
+
+  /* ── WHATSAPP FLOAT BUTTON ── */
+  .wa-float {
+    position: fixed;
+    bottom: 28px; right: 28px;
+    z-index: 999;
+    display: flex; align-items: center; gap: 10px;
+    background: #25D366;
+    color: #fff;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 0.88rem;
+    padding: 14px 20px 14px 16px;
+    border-radius: 100px;
+    text-decoration: none;
+    box-shadow: 0 8px 32px rgba(37,211,102,0.45);
+    transition: transform 0.25s, box-shadow 0.25s;
+    animation: floatIn 0.6s 1s both;
+  }
+  .wa-float:hover {
+    transform: translateY(-4px) scale(1.03);
+    box-shadow: 0 16px 40px rgba(37,211,102,0.55);
+  }
+  .wa-float svg { width: 22px; height: 22px; flex-shrink: 0; }
+  .wa-float .wa-label { white-space: nowrap; }
+  @keyframes floatIn { from { opacity:0; transform: translateY(20px); } to { opacity:1; transform: none; } }
+
+  /* ── GOOGLE FORM STATUS ── */
+  .form-status {
+    display: none;
+    text-align: center;
+    padding: 20px;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    margin-top: 16px;
+    font-weight: 500;
+  }
+  .form-status.success {
+    display: block;
+    background: rgba(37,211,102,0.1);
+    border: 1px solid var(--navy-border);
+    color: var(--green);
+  }
+  .form-status.error {
+    display: block;
+    background: rgba(255,77,109,0.1);
+    border: 1px solid rgba(255,77,109,0.3);
+    color: #ff4d6d;
+  }
+
+  /* ── ANIMATIONS ── */
+  .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  /* ── MOBILE ── */
+  @media(max-width: 640px) {
+    nav { padding: 16px 20px; }
+    .problem-grid { grid-template-columns: 1fr; }
+    .form-card { padding: 32px 24px; }
+    .section-pad { padding: 72px 0; }
+    .wa-float .wa-label { display: none; }
+    .wa-float { padding: 14px; border-radius: 50%; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════
+  📌 WHATSAPP CHAT BUTTON
+  Replace YOUR_WHATSAPP_NUMBER with your number in international format (no + or spaces)
+  Example: 27821234567 for +27 82 123 4567
+  You can also set a pre-filled message in the ?text= param below
+══════════════════════════════════════════ -->
+<a class="wa-float"
+   href="https://wa.me/27646509053?text=Hi%2C%20I%27m%20interested%20in%20early%20access%20to%20the%20WhatsApp%20Order%20Manager%21"
+   target="_blank" rel="noopener">
+  <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M16 2C8.268 2 2 8.268 2 16c0 2.44.636 4.733 1.75 6.724L2 30l7.494-1.727A13.94 13.94 0 0016 30c7.732 0 14-6.268 14-14S23.732 2 16 2z" fill="#fff" fill-opacity="0.2"/>
+    <path d="M22.54 19.46c-.32-.16-1.9-.938-2.194-1.044-.294-.107-.508-.16-.722.16-.214.32-.828 1.044-.014 1.258.107.027.72.294 1.044.454 1.364.668 2.32.48 2.734-.214.267-.453.16-1.24-.848-1.614zM16.08 8C11.624 8 8 11.624 8 16.08c0 1.547.427 2.994 1.17 4.227l-.747 2.72 2.8-.733A8.048 8.048 0 0016.08 24c4.456 0 8.08-3.624 8.08-8.08C24.16 11.464 20.536 8 16.08 8zm0 14.72a6.626 6.626 0 01-3.387-.934l-.24-.147-2.507.657.667-2.44-.16-.254A6.613 6.613 0 019.44 16.08c0-3.66 2.98-6.64 6.64-6.64 3.66 0 6.64 2.98 6.64 6.64 0 3.66-2.98 6.64-6.64 6.64z" fill="#fff"/>
+  </svg>
+  <span class="wa-label">Chat on WhatsApp</span>
+</a>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Order<span>Manager</span></div>
+  <a href="#form-section" class="nav-cta">Get Early Access</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="container">
+    <div class="hero-badge">Early Access Open</div>
+    <h1>Stop Losing Orders <span class="accent">on WhatsApp</span></h1>
+    <p class="hero-sub">Track every order. Reply faster. Never miss a sale again.</p>
+    <p class="hero-proof">Built for small business owners who rely on WhatsApp daily</p>
+    <a href="#form-section" class="btn-primary">👉 Get Early Access</a>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PROBLEM -->
+<section id="problem" class="section-pad">
+  <div class="container reveal">
+    <span class="section-label">The Problem</span>
+    <h2>Running your business on WhatsApp?</h2>
+    <p class="body-text">Messages everywhere. Orders getting lost. Customers waiting for replies.<br><br>
+    You're not disorganized — you just don't have the right system.</p>
+    <div class="problem-grid">
+      <div class="problem-card">
+        <span class="icon">📩</span>
+        <h3>Messages Everywhere</h3>
+        <p>Orders buried under unread chats. Nothing is organized.</p>
+      </div>
+      <div class="problem-card">
+        <span class="icon">😤</span>
+        <h3>Lost Orders</h3>
+        <p>Customers confirm, you forget. Money walks out the door.</p>
+      </div>
+      <div class="problem-card">
+        <span class="icon">⏳</span>
+        <h3>Slow Replies</h3>
+        <p>Customers wait too long. They don't wait forever.</p>
+      </div>
+      <div class="problem-card">
+        <span class="icon">🤯</span>
+        <h3>No System</h3>
+        <p>WhatsApp wasn't built for sales. You're working against the tool.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PAIN -->
+<section id="pain" class="section-pad">
+  <div class="container reveal">
+    <span class="section-label">The Cost</span>
+    <h2>Every missed message = <span class="accent-red">lost money</span></h2>
+    <div class="pain-stat">$0</div>
+    <p class="pain-stat-label">earned from orders you didn't know existed</p>
+    <p class="body-text">If you can't track your orders… you can't grow your business.<br><br>
+    And right now, WhatsApp isn't built for managing sales.</p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SOLUTION -->
+<section id="solution" class="section-pad">
+  <div class="container reveal">
+    <span class="section-label">The Solution</span>
+    <h2>Meet the WhatsApp Order Manager</h2>
+    <p class="body-text">A simple tool that turns your WhatsApp into a powerful sales system.</p>
+    <ul class="bullets">
+      <li><span class="check">✅</span> Automatically track every order</li>
+      <li><span class="check">✅</span> Organize customers in one place</li>
+      <li><span class="check">✅</span> Never forget or miss a message</li>
+      <li><span class="check">✅</span> Respond faster and close more sales</li>
+    </ul>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- OUTCOME -->
+<section id="outcome" class="section-pad">
+  <div class="container reveal">
+    <span class="section-label">The Outcome</span>
+    <h2>Imagine this:</h2>
+    <p class="body-text">Every order tracked. Every customer organized. Zero chaos.<br><br>Just smooth, simple sales.</p>
+    <div class="outcome-pills">
+      <span class="pill">📦 Every order tracked</span>
+      <span class="pill">👥 Customers organized</span>
+      <span class="pill">⚡ Zero chaos</span>
+      <span class="pill">💸 More sales closed</span>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- EARLY ACCESS -->
+<section id="early" class="section-pad">
+  <div class="container reveal">
+    <span class="section-label">Early Access</span>
+    <h2>Get Early Access 🚀</h2>
+    <p class="body-text">I'm currently building this tool. Join now to:</p>
+    <ul class="early-perks">
+      <li>Get early access before launch</li>
+      <li>Help shape the product</li>
+      <li>Lock in exclusive early pricing</li>
+    </ul>
+  </div>
+</section>
+
+<!-- FORM -->
+<!-- ══════════════════════════════════════════
+  📌 GOOGLE FORM INTEGRATION
+  Steps to connect your Google Form:
+  1. Create a Google Form with fields: Name, WhatsApp Number, Email
+  2. Click the 3-dot menu → "Get pre-filled link"
+  3. Fill dummy values, click "Get link", copy the URL
+  4. Replace GOOGLE_FORM_ACTION_URL below with your form's action URL
+     (change /viewform to /formResponse at the end)
+  5. Replace entry.XXXXXXXXX values with your actual entry IDs from the pre-filled URL
+══════════════════════════════════════════ -->
+<section id="form-section" class="section-pad">
+  <div class="container reveal">
+    <div class="form-card">
+      <h2>Join the Early Access List</h2>
+      <p class="form-sub">Be first in line. No spam, ever.</p>
+
+      <div class="form-group">
+        <label>Your Name</label>
+        <input id="field-name" type="text" placeholder="e.g. Thabo Nkosi"/>
+      </div>
+      <div class="form-group">
+        <label>WhatsApp Number</label>
+        <input id="field-wa" type="tel" placeholder="e.g. +27 82 000 0000"/>
+      </div>
+      <div class="form-group">
+        <label>Email Address</label>
+        <input id="field-email" type="email" placeholder="e.g. thabo@gmail.com"/>
+      </div>
+
+      <button class="btn-submit" onclick="handleSubmit(this)">👉 Reserve My Spot</button>
+      <p class="urgency">Limited early users only</p>
+
+      <div id="form-status" class="form-status"></div>
+
+      <!-- Hidden Google Form iframe (submits silently) -->
+      <iframe id="hidden-form-target" name="hidden-form-target" style="display:none;"></iframe>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST -->
+<section id="trust">
+  <div class="container reveal">
+    <div class="trust-avatar">👨‍💻</div>
+    <p class="trust-text">Built by a founder focused on helping small businesses grow using simple, powerful tools.</p>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section id="final-cta">
+  <div class="container reveal">
+    <h2>Stop losing customers.<br>Start growing.</h2>
+    <a href="#form-section" class="btn-primary">👉 Get Early Access Now</a>
+  </div>
+</section>
+
+<footer>
+  © 2025 WhatsApp Order Manager · Built for small businesses
+</footer>
+
+<script>
+  // ── SCROLL REVEAL ──
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.12 });
+  reveals.forEach(r => observer.observe(r));
+
+  // ══════════════════════════════════════════
+  // 📌 GOOGLE FORM CONFIG
+  // Replace these values with your own (see instructions above the form section)
+  // ══════════════════════════════════════════
+  const GOOGLE_FORM_ACTION = 'https://docs.google.com/forms/d/e/1FAIpQLSdUUYqVl7h_ynO4GUVKQyh5UvzkjDqq-Ui1BMajK2U0BXrMCA/formResponse';
+  const ENTRY_NAME    = 'entry.413807491';  // Name
+  const ENTRY_WA      = 'entry.1484565983'; // WhatsApp Number
+  const ENTRY_EMAIL   = 'entry.990199086';  // Email
+
+  function handleSubmit(btn) {
+    const name  = document.getElementById('field-name').value.trim();
+    const wa    = document.getElementById('field-wa').value.trim();
+    const email = document.getElementById('field-email').value.trim();
+    const status = document.getElementById('form-status');
+
+    // Validation
+    if (!name || !wa || !email) {
+      btn.textContent = '⚠️ Please fill all fields';
+      btn.style.background = '#ff4d6d';
+      btn.style.color = '#fff';
+      setTimeout(() => {
+        btn.textContent = '👉 Reserve My Spot';
+        btn.style.background = '';
+        btn.style.color = '';
+      }, 2200);
+      return;
+    }
+
+    btn.textContent = '⏳ Submitting…';
+    btn.disabled = true;
+
+    // Build Google Form POST URL
+    const formData = new URLSearchParams();
+    formData.append(ENTRY_NAME,  name);
+    formData.append(ENTRY_WA,    wa);
+    formData.append(ENTRY_EMAIL, email);
+
+    // Submit silently via hidden iframe (avoids CORS redirect issues)
+    const hiddenForm = document.createElement('form');
+    hiddenForm.method = 'POST';
+    hiddenForm.action = GOOGLE_FORM_ACTION;
+    hiddenForm.target = 'hidden-form-target';
+    hiddenForm.style.display = 'none';
+
+    [[ENTRY_NAME, name],[ENTRY_WA, wa],[ENTRY_EMAIL, email]].forEach(([k, v]) => {
+      const input = document.createElement('input');
+      input.type = 'hidden'; input.name = k; input.value = v;
+      hiddenForm.appendChild(input);
+    });
+
+    document.body.appendChild(hiddenForm);
+    hiddenForm.submit();
+    document.body.removeChild(hiddenForm);
+
+    // Success state (after brief delay for UX)
+    setTimeout(() => {
+      btn.textContent = '🎉 You\'re on the list!';
+      btn.style.background = 'transparent';
+      btn.style.color = 'var(--green)';
+      btn.style.border = '2px solid var(--green)';
+
+      ['field-name','field-wa','field-email'].forEach(id => {
+        const el = document.getElementById(id);
+        el.disabled = true;
+        el.style.opacity = '0.4';
+      });
+
+      status.className = 'form-status success';
+      status.innerHTML = '✅ Spot reserved! We\'ll be in touch soon.';
+    }, 900);
+  }
+</script>
+</body>
+</html>
